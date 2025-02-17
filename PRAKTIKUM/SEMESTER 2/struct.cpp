@@ -2,20 +2,20 @@
 using namespace std;
 
 struct Data{
-    int angka;
+    string angka;
     string kata;
 };
 
 Data dosen[100], mhs[100];
 int jumlahDosen=0,jumlahMhs=0;
 
-int outData(int angka, string kata){
+int outData(string angka, string kata){
     // cout<<"OUTPUT :"<<endl;
     cout<<"No : "<<angka<<endl;
     cout<<"Nama : "<<kata<<endl;
     return 0;
 }
-int inData(int &angka, string &kata){
+int inData(string &angka, string &kata){
     // cout<<"INPUT : "<<endl;
     cout<<"No: ";cin>>angka;
     cout<<"Nama : ";cin.ignore();getline(cin,kata);
@@ -47,7 +47,6 @@ int deleteData(int num,int menu,int &qty){
     else if(menu==2){jumlahMhs--;qty--;}
     return 0;
 }
-
 
 void Menu(int menu){
     int submenu;
@@ -119,12 +118,16 @@ void Menu(int menu){
                     cout<<"Data ditemukan!"<<endl;
                     outData(dosen[i].angka,dosen[i].kata);
                     break;
+                }else{
+                    cout<<"Data tidak ada!"<<endl;
                 }
             }else if(menu==2){
                 if(in==mhs[i].kata){
                     cout<<"Data ditemukan!"<<endl;
                     outData(mhs[i].angka,mhs[i].kata);
                     break;
+                }else{
+                    cout<<"Data tidak ada!"<<endl;
                 }
             }
         }
