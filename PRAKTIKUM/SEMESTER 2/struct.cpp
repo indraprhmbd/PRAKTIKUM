@@ -11,14 +11,14 @@ int jumlahDosen=0,jumlahMhs=0;
 
 int outData(string angka, string kata){
     // cout<<"OUTPUT :"<<endl;
-    cout<<"No : "<<angka<<endl;
-    cout<<"Nama : "<<kata<<endl;
+    cout<<"No \t: "<<angka<<endl;
+    cout<<"Nama \t: "<<kata<<endl;
     return 0;
 }
 int inData(string &angka, string &kata){
     // cout<<"INPUT : "<<endl;
-    cout<<"No: ";cin>>angka;
-    cout<<"Nama : ";cin.ignore();getline(cin,kata);
+    cout<<"No: ";cin.ignore();getline(cin,angka);
+    cout<<"Nama : ";getline(cin,kata);
     cout<<"------------------------"<<endl;    
     return 0;           
 }
@@ -50,89 +50,88 @@ int deleteData(int num,int menu,int &qty){
 
 void Menu(int menu){
     int submenu;
-    int qty=0,count=0;    
-    system("cls");
-    if(menu==1)cout<<"MENU DATA DOSEN"<<endl;
-    else if(menu==2)cout<<"MENU DATA MAHASISWA"<<endl;
-    cout<<"1. Input"<<endl;
-    cout<<"2. Output"<<endl;
-    cout<<"3. Hapus"<<endl;
-    cout<<"4. Status"<<endl;
-    cout<<"5. Cari"<<endl;
-    cout<<"6. Kembali"<<endl;
-    cout<<"pilih : ";cin>>submenu;
-    
-    //KEMBALI
-    if(submenu==6)system("exit");
-    system("cls");
-
-    //INPUT
-    if(submenu==1){
-        cout<<"Menu Input"<<endl;
-        cout<<endl<<"STATUS | "<<"Jumlah Dosen : "<<jumlahDosen<<" | Jumlah Mahasiswa : "<<jumlahMhs<<endl;
-        cout<<"Banyak data : ";cin>>qty;cout<<endl;
-
-        if(menu==1)count=jumlahDosen;
-        else if(menu==2)count=jumlahMhs;
-
-        for(int i=count;i<count+qty;i++){
-            cout<<"["<<i+1<<"]";
-            if(menu==1){inData(dosen[i].angka,dosen[i].kata);if(jumlahDosen==100)jumlahDosen=0;jumlahDosen++;}
-            else if(menu==2){inData(mhs[i].angka,mhs[i].kata);if(jumlahMhs==100)jumlahMhs=0;jumlahMhs++;}
-            else break;
-        }
-
-    //OUTPUT
-    }else if(submenu==2){
-        if(menu==1)qty=jumlahDosen;if(menu==2)qty=jumlahMhs;
-        // if(qty==0)cout<<"== NONE =="<<endl;
-        outputData(menu,qty);
-    
-    //HAPUS
-    }else if(submenu==3){
-        if(menu==1)qty=jumlahDosen;if(menu==2)qty=jumlahMhs;
-        outputData(menu,qty);
-        cout<<endl<<"Data ke berapa yang ingin dihapus? : ";cin>>submenu;
-        if(submenu<1 || qty==0) {cout<<"ISI DATA DAHULU"<<endl;system("pause");system("exit");}
-        else deleteData(submenu,menu,qty);
+    do{    
+        int qty=0,count=0;    
         system("cls");
-        if(qty==0)cout<<"== NONE =="<<endl;
-        outputData(menu,qty);
+        if(menu==1)cout<<"MENU DATA DOSEN"<<endl;
+        else if(menu==2)cout<<"MENU DATA MAHASISWA"<<endl;
+        cout<<"1. Input"<<endl;
+        cout<<"2. Output"<<endl;
+        cout<<"3. Hapus"<<endl;
+        cout<<"4. Status"<<endl;
+        cout<<"5. Cari"<<endl;
+        cout<<"6. Kembali"<<endl;
+        cout<<"pilih : ";cin>>submenu;
+        
+        //KEMBALI
+        if(submenu==6)system("exit");
+        system("cls");
 
-    //STATUS
-    }else if(submenu==4){
-        char in;
-        if(menu==1){
-            cout<<"| STATUS | Banyak Data :"<<jumlahDosen<<endl;
-        }else if (menu==2){
-            cout<<"| STATUS | Banyak Data : "<<jumlahMhs<<endl;
-        }
-    }
-    else if(submenu==5){
-        string in;
-        if(menu==1)qty=jumlahDosen;if(menu==2)qty=jumlahMhs;
-        cout<<"Masukkan nama yang akan dicari :";cin.ignore();getline(cin,in);
-        for(int i=0;i<qty;i++){
+        //INPUT
+        if(submenu==1){
+            cout<<"Menu Input"<<endl;
+            cout<<endl<<"STATUS | "<<"Jumlah Dosen : "<<jumlahDosen<<" | Jumlah Mahasiswa : "<<jumlahMhs<<endl;
+            cout<<"Banyak data : ";cin>>qty;cout<<endl;
+
+            if(menu==1)count=jumlahDosen;
+            else if(menu==2)count=jumlahMhs;
+
+            for(int i=count;i<count+qty;i++){
+                cout<<"["<<i+1<<"]";
+                if(menu==1){inData(dosen[i].angka,dosen[i].kata);if(jumlahDosen==100)jumlahDosen=0;jumlahDosen++;}
+                else if(menu==2){inData(mhs[i].angka,mhs[i].kata);if(jumlahMhs==100)jumlahMhs=0;jumlahMhs++;}
+                else break;
+            }
+
+        //OUTPUT
+        }else if(submenu==2){
+            if(menu==1)qty=jumlahDosen;if(menu==2)qty=jumlahMhs;
+            // if(qty==0)cout<<"== NONE =="<<endl;
+            outputData(menu,qty);
+        
+        //HAPUS
+        }else if(submenu==3){
+            if(menu==1)qty=jumlahDosen;if(menu==2)qty=jumlahMhs;
+            outputData(menu,qty);
+            cout<<endl<<"Data ke berapa yang ingin dihapus? : ";cin>>submenu;
+            if(submenu<1 || qty==0) {cout<<"ISI DATA DAHULU"<<endl;system("pause");system("exit");}
+            else deleteData(submenu,menu,qty);
+            system("cls");
+            if(qty==0)cout<<"== NONE =="<<endl;
+            outputData(menu,qty);
+
+        //STATUS
+        }else if(submenu==4){
+            char in;
             if(menu==1){
-                if(in==dosen[i].kata){
-                    cout<<"Data ditemukan!"<<endl;
-                    outData(dosen[i].angka,dosen[i].kata);
-                    break;
-                }else{
-                    cout<<"Data tidak ada!"<<endl;
-                }
-            }else if(menu==2){
-                if(in==mhs[i].kata){
-                    cout<<"Data ditemukan!"<<endl;
-                    outData(mhs[i].angka,mhs[i].kata);
-                    break;
-                }else{
-                    cout<<"Data tidak ada!"<<endl;
+                cout<<"| STATUS | Banyak Data :"<<jumlahDosen<<endl;
+            }else if (menu==2){
+                cout<<"| STATUS | Banyak Data : "<<jumlahMhs<<endl;
+            }
+        }
+
+        //CARI
+        else if(submenu==5){
+            string in;
+            if(menu==1)qty=jumlahDosen; if(menu==2)qty=jumlahMhs;
+            cout<<"Masukkan nama atau no yang akan dicari :";cin.ignore();getline(cin,in);
+            for(int i=0;i<qty;i++){
+                if(menu==1){
+                    if(in==dosen[i].kata || in==dosen[i].angka){
+                        cout<<"Data ditemukan!"<<endl;
+                        outData(dosen[i].angka,dosen[i].kata);
+                    }else cout<<"Data tidak ditemukan!"<<endl;
+                }else if(menu==2){
+                    if(in==mhs[i].kata || in==mhs[i].angka){
+                        cout<<"Data ditemukan!"<<endl;
+                        outData(mhs[i].angka,mhs[i].kata);
+                    }else cout<<"Data tidak ditemukan!"<<endl;
                 }
             }
         }
-    }
-    system("pause");
+        system("pause");
+    }while(submenu!=6);
+    
 }
 
 int main(){
