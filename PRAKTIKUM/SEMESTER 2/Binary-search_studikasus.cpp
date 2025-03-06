@@ -21,7 +21,7 @@ int binary_search(int l, int r, int target) {
     if (mhs[mid].nim > target) return binary_search(l, mid - 1, target); // Cari di kiri
     return binary_search(mid + 1, r, target); // Cari di kanan
 }
-
+    
 void searching_nim(){
     int target;
     int size = sizeof(mhs)/sizeof(mhs[0]);
