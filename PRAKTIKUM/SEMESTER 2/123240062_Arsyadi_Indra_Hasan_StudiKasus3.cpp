@@ -8,10 +8,10 @@ struct Mahasiswa {
 
 Mahasiswa mhs[6]= {
     {108, "Gradiva Arya", "Informatika"},
+    {111, "Nur Heri Budianto","Teknik Industri"},
     {122, "Bahlul Lala", "Tambang"},
     {314, "Budi Budi Budi", "Sistem Informasi"},
-    {422, "Wijdan","Informatika"},
-    {111, "Nur Heri Budianto","Teknik Industri"}
+    {422, "Wijdan","Informatika"}
 };
 
 int N=sizeof(mhs)/sizeof(mhs[0]);
