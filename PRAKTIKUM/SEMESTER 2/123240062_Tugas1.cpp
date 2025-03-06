@@ -1,5 +1,4 @@
 #include <iostream>
-// #include <string>
 using namespace std;
 
 int jumlahMhs=0;
@@ -31,13 +30,17 @@ int inputMhs(){
     return 0;
 }
 
+void outputMhs(int i){
+    cout<<"Data Mahasiswa ["<<i+1<<"]"<<endl;
+    cout<<"NIM \t: "<<mhs[i].nim<<endl;
+    cout<<"Nama \t: "<<mhs[i].nama<<endl;
+    cout<<"IPK \t: "<<mhs[i].ipk<<endl;
+}
+
 void tampilkanMhs(int N){
     if(N<0) return; //basis rekursif
     else {
-        cout<<"Data Mahasiswa ["<<N+1<<"]"<<endl;
-        cout<<"NIM \t: "<<mhs[N].nim<<endl;
-        cout<<"Nama \t: "<<mhs[N].nama<<endl;
-        cout<<"IPK \t: "<<mhs[N].ipk<<endl;
+        outputMhs(N);
         tampilkanMhs(N-1);
     }
 }
@@ -49,10 +52,8 @@ int sequential_search_nim(string target){
     while(target!=mhs[i].nim && target!=mhs[i].nama) i++;
     
     if(i<N-1) {
-        cout<<"Data Mahasiswa ditemukan! : "<<"["<<i+1<<"]"<<endl;
-        cout<<"NIM \t: "<<mhs[i].nim<<endl;
-        cout<<"Nama \t: "<<mhs[i].nama<<endl;
-        cout<<"IPK \t: "<<mhs[i].ipk<<endl;
+        cout<<"Ditemukan! ";
+        outputMhs(i);
         return 0;
     }
     return -1;
@@ -97,10 +98,7 @@ int main(){
                     cout<<"| Daftar Mahasiswa |"<<endl;
                     cout<<"+==================+"<<endl;
                     for(int i=0;i<jumlahMhs;i++){
-                        cout<<"Data Mahasiswa ["<<i+1<<"]"<<endl;
-                        cout<<"NIM \t: "<<mhs[i].nim<<endl;
-                        cout<<"Nama \t: "<<mhs[i].nama<<endl;
-                        cout<<"IPK \t: "<<mhs[i].ipk<<endl;
+                        outputMhs(i);
                     }
                 }
                 system("pause");
@@ -133,12 +131,11 @@ int main(){
                     cout<<"|   Cari Mahasiswa  |"<<endl;
                     cout<<"| Sequential Search |"<<endl;
                     cout<<"+===================+"<<endl;
-                    cout<<"Masukkan NIM / Nama yang akan dicari : ";cin>>target_nim;
+                    cout<<"Masukkan NIM / Nama yang akan dicari : ";cin.ignore();getline(cin,target_nim);
                     if(sequential_search_nim(target_nim)==-1) cout<<"Data tidak ditemukan!"<<endl;
                 }
                 system("pause");
             break;
-
 
             //binary search
             case '4' : 
@@ -161,10 +158,7 @@ int main(){
                         if(res==-1) cout<<"Data tidak ditemukan!"<<endl;
                         else {
                             cout<<"Data ditemukan! : "<<endl;
-                            cout<<"Data Mahasiswa ["<<res+1<<"]"<<endl;
-                            cout<<"NIM \t: "<<mhs[res].nim<<endl;
-                            cout<<"Nama \t: "<<mhs[res].nama<<endl;
-                            cout<<"IPK \t: "<<mhs[res].ipk<<endl;
+                            outputMhs(res);
                         }
                     }else {
                         cout<<"Mohon maaf data NIM harus urut.."<<endl;
