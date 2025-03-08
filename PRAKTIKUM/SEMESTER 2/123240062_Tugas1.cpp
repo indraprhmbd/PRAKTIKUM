@@ -24,7 +24,7 @@ int inputMhs(){
         cout<<"Nama \t: ";cin.ignore();getline(cin,mhs[i].nama);
         cout<<"IPK \t: ";cin>>mhs[i].ipk;
     }
-    if(jumlahMhs>100) jumlahMhs=0; //menghindari overflow maxdata
+    if(jumlahMhs>=100) jumlahMhs=0; //menghindari overflow maxdata
     jumlahMhs+=qty;
 
     return 0;
