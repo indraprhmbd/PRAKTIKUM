@@ -140,14 +140,16 @@ int partition(int Arr[],int low, int high){
     for(int j=low; j<=high -1 ; j++){
         if (Arr[j] < pivot){
             i++;
-            temp = Arr[i];
-            Arr[i] = Arr[j];
-            Arr[j] = temp;
+            swap(Arr[i],Arr[j]);
+            // temp = Arr[i];
+            // Arr[i] = Arr[j];
+            // Arr[j] = temp;
         }
     }
-    temp = Arr[i+1];
-    Arr[i+1] = Arr[high];
-    Arr[high] = temp;
+    swap(Arr[i+1],Arr[high]);
+    // temp = Arr[i+1];
+    // Arr[i+1] = Arr[high];
+    // Arr[high] = temp;
     return i+1;
 }
 
