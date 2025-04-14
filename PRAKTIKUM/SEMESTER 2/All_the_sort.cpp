@@ -134,22 +134,15 @@ void ShellSort(int Arr[], int ArrSize){
 }
 
 int partition(int Arr[],int low, int high){
-    int temp;
     int pivot = Arr[high];
     int i=low-1;
     for(int j=low; j<=high -1 ; j++){
         if (Arr[j] < pivot){
             i++;
             swap(Arr[i],Arr[j]);
-            // temp = Arr[i];
-            // Arr[i] = Arr[j];
-            // Arr[j] = temp;
         }
     }
     swap(Arr[i+1],Arr[high]);
-    // temp = Arr[i+1];
-    // Arr[i+1] = Arr[high];
-    // Arr[high] = temp;
     return i+1;
 }
 
