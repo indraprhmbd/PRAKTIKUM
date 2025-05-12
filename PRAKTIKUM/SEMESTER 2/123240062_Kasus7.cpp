@@ -1,18 +1,21 @@
 #include <iostream>
 #include <cstdlib>
-#include <cstring>
+#include <string>
 #include <iomanip>
 #include <limits>
 #include <chrono>
 #include <thread>
+#include <random>
 
 #define MAX_STUDENT 100
 #define MAX_NAME_CHAR 30
+float   min_nilai = 0.0f, 
+        max_nilai = 10.0f;
 
 using namespace std;
 
 struct mhs{
-    char nama[MAX_NAME_CHAR];
+    string nama;
     float nilai;
 };
 
@@ -26,28 +29,25 @@ void swapMhs(mhs* a, mhs* b) {
 
 void tampilkan_data(int N) {
     cout <<endl << left << setw(5) << "No"
-         << setw(30) << "Nama"
+         << setw(35) << "Nama"
          << setw(10) << "Nilai" << endl;
-    cout << string(45, '-') << endl;
+    cout << string(50, '-') << endl;
 
     for (int i = 0; i < N; i++) {
         cout << left << setw(5) << i + 1
-             << setw(30) << Data[i].nama
+             << setw(35) << Data[i].nama
              << setw(10) << fixed << setprecision(2) << Data[i].nilai << endl;
     }
 }
-
 
 int partition(mhs arr[], int low, int high, int menu) {
     float pivot = arr[high].nilai;
     int i = (low - 1);
 
     for (int j = low; j <= high - 1; j++) {
-        if (arr[j].nilai <= pivot && menu==0) { //asc
-            i++;
-            swapMhs(&arr[i], &arr[j]);
-        }
-        else if (arr[j].nilai > pivot && menu==1) { //desc
+        bool condition = (menu == 1) ? (arr[j].nilai >= pivot) // Desc
+                                     : (arr[j].nilai <= pivot); // Asc         
+        if (condition) {
             i++;
             swapMhs(&arr[i], &arr[j]);
         }
@@ -56,7 +56,7 @@ int partition(mhs arr[], int low, int high, int menu) {
     return (i + 1);
 }
 
-void quickSort(mhs arr[], int low, int high,int menu) {
+void quickSort(mhs arr[], int low, int high, int menu) {
     if (low < high) {
         int pi = partition(arr, low, high, menu);
         quickSort(arr, low, pi - 1,menu);
@@ -69,13 +69,12 @@ void sort_by_value(int menu, int N) {
     tampilkan_data(N);
 }
 
-
 //bubblesort
 void sort_by_name(int menu, int N) {
     for (int i = 0; i < N - 1; i++) {
         for (int j = 0; j < N - i - 1; j++) {
-            if ((menu == 0 && strcmp(Data[j].nama, Data[j + 1].nama) > 0) || 
-                (menu == 1 && strcmp(Data[j].nama, Data[j + 1].nama) < 0)) {
+            if ((menu == 0 && (Data[j].nama > Data[j + 1].nama)) || 
+                (menu == 1 && (Data[j].nama < Data[j + 1].nama))) {
                 swapMhs(&Data[j], &Data[j + 1]);
             }
         }
@@ -85,14 +84,40 @@ void sort_by_name(int menu, int N) {
 
 void pause(){
     cin.ignore();
-    cout<<endl<<"TEKAN ENTER UNTUK MELANJUTKAN"<<endl;
+    cout<<endl<<"TEKAN ENTER UNTUK MELANJUTKAN";
     cin.get();
+}
+
+int generateRandomInt(int min, int max) {
+    random_device rd;               // Non-deterministic random number generator
+    mt19937 gen(rd());              // Mersenne Twister engine seeded with rd
+    uniform_int_distribution<> distrib(min, max);
+    return distrib(gen);
+}
+
+string generateRandomString(size_t length) {
+    const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> distrib(0, chars.size() - 1);
+
+    string result;
+    for (size_t i = 0; i < length; ++i) {
+        result += chars[distrib(gen)];
+    }
+    return result;
+}
+
+float generateRandomFloat(float min = 0.0f, float max = 100.0f) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<float> distrib(min, max);
+    return distrib(gen);
 }
 
 int main(){
     char ulang='n';
     int size=0;
-    
     do{
         system("cls");
         char menu;
@@ -108,28 +133,49 @@ int main(){
         switch(menu){
             case '1' :
                 int qty;
+                char rand;
                 system("cls");
                 cout<<"+================================+"<<endl;
                 cout<<"| [1] Input Data Mahasiswa       |"<<endl;
                 cout<<"+================================+"<<endl;
                 cout<<"Mau masukkan berapa data? : ";cin>>qty;
+                cout<<"Random Data? (y/n) : ";cin>>rand;
                 if (size + qty > MAX_STUDENT) {
                     cout << "Data melebihi kapasitas maksimum!" << endl;
+                    size=0; //overwrite data dri awal
                     break;
                 }
-                for(int i=size;i<qty+size;i++){
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    mhs* ptr = &Data[i];
-                    cout << "Masukkan Nama  : ";
-                    cin.getline(ptr->nama, MAX_NAME_CHAR + 1);
-                    cout << "Masukkan Nilai : ";
-                    cin >> ptr->nilai;
-                    cout<<"------------------------------"<<endl;
+                if (rand=='y'){
+                    for(int i=size;i<qty+size;i++){
+                        Data[i].nama = generateRandomString(generateRandomInt(4,10));
+                        Data[i].nilai = generateRandomFloat(min_nilai, max_nilai);
+                    }
+                }else{
+                    for(int i=size;i<qty+size;i++){
+                        cin.ignore();
+                        mhs* ptr = &Data[i];
+                        
+                        cout << "["<<i+1<<"]Masukkan Nama  : ";
+                        getline(cin, ptr->nama);
+
+                        //truncate jika lebih dari MAX_NAME_CHAR
+                        if(ptr->nama.length() > MAX_NAME_CHAR){
+                            ptr->nama = ptr->nama.substr(0, MAX_NAME_CHAR);
+                        }
+                        cout << "   Masukkan Nilai : ";
+                        cin >> ptr->nilai;
+                        cout<<string(40,'-')<<endl;
+                        if(ptr->nilai<min_nilai || ptr->nilai>max_nilai) {
+                            i--; cout<<"invalid value (min or max)"<<endl;
+                        }
+                    }
                 }
+                
                 size+=qty;
                 cout<<"Data telah masuk!"<<endl;
                 pause();
                 break;
+
                 case '2' :
                 do{
                     system("cls");
@@ -159,6 +205,7 @@ int main(){
                             sort_by_name(sortMenu - 2, size);
                         } else if(sortMenu==4) {
                             cout<<" "<<endl;
+                            ulang='n';
                         }else {
                             cout << "Pilihan tidak valid!" << endl;
                         }
@@ -174,7 +221,7 @@ int main(){
                         pause();
                         break;
                     }
-                    cout<<endl<<"Ulangi menu (y/n) : ";cin>>ulang;
+                    if(sortMenu!=4) {cout<<endl<<"Ulangi menu (y/n) : ";cin>>ulang;}
                 }while(ulang!='n');
                 break;
             }
@@ -185,6 +232,5 @@ int main(){
                 cout<<endl<<"T E R I M A K A S I H"<<endl<<" ";
         }
     }while(ulang!='y');
-
     return 0;
 }

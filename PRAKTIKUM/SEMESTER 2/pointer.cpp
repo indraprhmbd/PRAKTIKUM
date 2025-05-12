@@ -13,6 +13,8 @@ int main(){
     cout<<"var umur yang baru : "<<umur<<endl;
 
     int nilai[]={80,60,87,89,100};
+    int* pArr = &nilai[0];
+    cout<<*(pArr+1)<<endl;
     cout<<"Array tanpa index : "<<nilai<<endl;
     cout<<"Elemen ke - 1 : "<<*nilai<<endl;
     cout<<"Elemen ke - 2 : "<<*(nilai+1)<<endl;
