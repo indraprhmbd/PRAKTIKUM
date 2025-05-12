@@ -9,8 +9,6 @@
 
 #define MAX_STUDENT 100
 #define MAX_NAME_CHAR 30
-float   min_nilai = 0.0f, 
-        max_nilai = 10.0f;
 
 using namespace std;
 
@@ -20,6 +18,8 @@ struct mhs{
 };
 
 mhs Data[MAX_STUDENT];
+float   min_nilai = 0.0f, 
+        max_nilai = 10.0f;
   
 void swapMhs(mhs* a, mhs* b) {
     mhs temp = *a;
